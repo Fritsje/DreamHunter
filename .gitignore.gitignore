@@ -1,0 +1,5 @@
+*.sln
+*.csproj
+*.unityproj
+Level_Editor_Unity/Temp/
+Level_Editor_Unity/Library/
