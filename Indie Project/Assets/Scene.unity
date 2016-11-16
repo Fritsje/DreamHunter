@@ -186,10 +186,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 1037520233}
   - 33: {fileID: 1037520232}
-  - 64: {fileID: 1037520231}
   - 23: {fileID: 1037520230}
   - 114: {fileID: 1037520229}
-  m_Layer: 0
+  - 61: {fileID: 1037520231}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,6 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 618b11ee456e84b4eb427d10cbfc76c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 10
+  _gravity: 0.3
+  _jumpHeight: 5
 --- !u!23 &1037520230
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -236,18 +239,20 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!64 &1037520231
-MeshCollider:
+--- !u!61 &1037520231
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1037520228}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Size: {x: 1, y: 1}
 --- !u!33 &1037520232
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -277,8 +282,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1221858604}
   - 33: {fileID: 1221858603}
-  - 64: {fileID: 1221858602}
   - 23: {fileID: 1221858601}
+  - 61: {fileID: 1221858602}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -315,18 +320,20 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!64 &1221858602
-MeshCollider:
+--- !u!61 &1221858602
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1221858600}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Size: {x: 1, y: 1}
 --- !u!33 &1221858603
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -342,7 +349,7 @@ Transform:
   m_GameObject: {fileID: 1221858600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -4.5, z: 0}
-  m_LocalScale: {x: 12, y: 1, z: 1}
+  m_LocalScale: {x: 50, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
