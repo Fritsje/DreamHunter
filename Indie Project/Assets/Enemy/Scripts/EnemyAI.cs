@@ -6,52 +6,94 @@ public class EnemyAI : MonoBehaviour {
 	private GameObject _player;
 	private float _playerDistance;
 
-	private bool isAttacking;
+	private int _health;
+	private bool _isAttacking; 		//if attack animation is playing
+	private float _attackCooldown; 	//cooldown before attacking again after the animation is done playing
+	private bool _playerInRange;
+
+	public GameObject projectile;
+
+
 
 	void Start () {
 		_player = new GameObject ();
-		isAttacking = false;
+		_attackCooldown = 0f;
+		_isAttacking = false;
+		_health = 10;
+		_playerInRange = false;
 	}
 
 	void Update () {
 		AnimationHandler ();
 		CheckPlayerLocation ();
+		ChasePlayer ();
+		Debug.DrawRay (transform.position, transform.right);
 
-
-		if (_playerDistance < 9f && !isAttacking) {
+		if (_playerDistance < 9f && _attackCooldown <= 0f) {
 			AttackPlayer ();
-		} else {
-			ChasePlayer ();
-		}
+		} 
 
 	}
 
 	void AttackPlayer(){
-		if(_playerDistance <2f) Debug.Log ("Swings his mighty sword at player");
-		if(_playerDistance <9f) Debug.Log ("Throws rock at player");
-		isAttacking = true;
+		if (_playerDistance < 2f) {
+			if (_playerInRange) {
+				Debug.Log ("Swings his mighty sword at player and hits");
+			} else {
+				Debug.Log ("Swings his mighty sword at player and misses..");
+			}
+			_attackCooldown = 1f;
+			_isAttacking = true;
+		} else if (_playerDistance < 9f && _playerDistance >= 2f) { 
+			Debug.Log ("Throws rock at player");
+			_attackCooldown = 2f;
+			_isAttacking = true;
+
+			GameObject.Instantiate (projectile, transform.position, Quaternion.identity);
+		}
 	}
 
 	void ChasePlayer(){
-		if(!isAttacking) transform.position += transform.forward*Time.deltaTime;
+		if (!_isAttacking) {
+			Vector3 dir = new Vector3(_player.transform.position.x, 0,0) - new Vector3(transform.position.x,0,0);
+			if (dir.magnitude > 1f) {
+				transform.position += (dir).normalized * Time.deltaTime;
+			}
+		}
 	}
 
 	void AnimationHandler(){
-		//when an attacking animation is not playing
-		isAttacking = false;
+		//when an attacking animationm is finished
+		_isAttacking = false;
+		_attackCooldown -= 1f*Time.deltaTime;
 	}
 
 	void CheckPlayerLocation(){
 		_player.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f)) ;
 		_playerDistance = Vector3.Distance(_player.transform.position, gameObject.transform.position);
 
-		//if enemy looks left or right
-		if (_player.transform.position.x > gameObject.transform.position.x) {
-			gameObject.transform.localScale = new Vector3(0.5f,1f,1f);
-			//looks right
-		} else {
-			gameObject.transform.localScale = new Vector3(1f,-1f,1f);
-			//looks left
+		if (!_isAttacking) {
+			//if player is left or right of the enemy
+			if (_player.transform.position.x > gameObject.transform.position.x) {
+				gameObject.transform.localScale = new Vector3 (1f, 1f, 1f);
+				//looks right
+			} else {
+				gameObject.transform.localScale = new Vector3 (1f, -1f, 1f);
+				//looks left
+			}
 		}
 	}
+
+	void OnTriggerEnter(Collider coll){
+		if (coll.gameObject == _player) {
+			_playerInRange = true;
+		}
+	}
+
+	void OnTriggerExit(Collider coll){
+		if (coll.gameObject == _player) {
+			_playerInRange = false;
+		}
+	}
+
 }

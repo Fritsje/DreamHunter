@@ -1,5 +1,7 @@
+/Indie Project/Temp/
+/Indie Project/Library/
+
 *.sln
 *.csproj
 *.unityproj
-Indie Project/Temp/
-Indie Project/Library/
+
