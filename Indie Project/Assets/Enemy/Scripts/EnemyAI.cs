@@ -27,7 +27,6 @@ public class EnemyAI : MonoBehaviour {
 		AnimationHandler ();
 		CheckPlayerLocation ();
 		ChasePlayer ();
-		Debug.DrawRay (transform.position, transform.right);
 
 		if (_playerDistance < 9f && _attackCooldown <= 0f) {
 			AttackPlayer ();
@@ -49,7 +48,8 @@ public class EnemyAI : MonoBehaviour {
 			_attackCooldown = 2f;
 			_isAttacking = true;
 
-			GameObject.Instantiate (projectile, transform.position, Quaternion.identity);
+			GameObject proj = Instantiate (projectile, transform.position+transform.up*2f, Quaternion.identity) as GameObject;
+			proj.GetComponent<Rigidbody2D> ().velocity = (transform.right*5f) * transform.localScale.x;
 		}
 	}
 
@@ -78,22 +78,22 @@ public class EnemyAI : MonoBehaviour {
 				gameObject.transform.localScale = new Vector3 (1f, 1f, 1f);
 				//looks right
 			} else {
-				gameObject.transform.localScale = new Vector3 (1f, -1f, 1f);
+				gameObject.transform.localScale = new Vector3 (-1f, 1f, 1f);
 				//looks left
 			}
 		}
 	}
 
-	void OnTriggerEnter(Collider coll){
-		if (coll.gameObject == _player) {
+	void OnTriggerEnter2D(Collider2D coll){
+		//if (coll.gameObject == _player) {
 			_playerInRange = true;
-		}
+		//}
 	}
 
-	void OnTriggerExit(Collider coll){
-		if (coll.gameObject == _player) {
+	void OnTriggerExit2D(Collider2D coll){
+		//if (coll.gameObject == _player) {
 			_playerInRange = false;
-		}
+		//}
 	}
 
 }
